@@ -52,9 +52,19 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'news'],
-                '' => 'site/index',
-                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['rubric', 'news'],
+                    'pluralize' => false,
+                ],
+                [
+                    'pattern' => 'rubric/all',
+                    'route' => 'rubric/all',
+                ],
+                [
+                    'pattern' => 'rubric/<id:\d+>/news',
+                    'route' => 'news/index',
+                ],
             ],
         ],
     ],
