@@ -25,18 +25,6 @@ class RubricNews extends \yii\db\ActiveRecord
         return 'rubric_news';
     }
 
-    public function fields()
-    {
-        return [
-            'id' => function($model) {
-                return $model->rubric_id;
-            },
-            'title' => function($model){
-                return $model->rubric->title;
-            },
-        ];
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -61,6 +49,7 @@ class RubricNews extends \yii\db\ActiveRecord
             'news_id' => 'News ID',
         ];
     }
+
 
     /**
      * Gets query for [[News]].

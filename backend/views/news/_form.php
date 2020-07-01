@@ -25,6 +25,7 @@ $js = $this->registerJs(
 
 <div class="news-form">
 
+    <?= Yii::$app->session->getFlash('error'); ?>
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
