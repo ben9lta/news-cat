@@ -69,6 +69,7 @@ class NewsController extends Controller
         $model = new News();
         $rn = new RubricNews();
         $rubric = Rubric::find()->where(['rubric_id' => 0])->asArray()->all();
+        $ids = RubricNews::find()->select('rubric_id')->where(['news_id' => $id])->asArray()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -78,6 +79,7 @@ class NewsController extends Controller
             'model' => $model,
             'rubric' => $rubric,
             'rn' => $rn,
+            'ids' => $ids
         ]);
     }
 
