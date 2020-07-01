@@ -5,6 +5,8 @@
 $this->title = 'My Yii Application';
 $script = <<< JS
     $('.rubric-btn').click((e) => clickRubric(e));
+
+    renderNews('news?page=1')
     
     function clickRubric(e) {
         e.preventDefault();
@@ -72,7 +74,9 @@ $script = <<< JS
         const perPage = parseInt(item.getResponseHeader('X-Pagination-Per-Page'));
         result = '';
         if(pageCount > 1){
+            
             url = url.substring(0, url.indexOf('page='));
+            
             for (let i = 1; i <= pageCount; i++){
                 if(i === currPage) {
                     result += '<li class="active"><a class="page-btn" href="' + url + 'page=' + i + '">' + i + '</a></li>'
