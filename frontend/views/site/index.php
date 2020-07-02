@@ -16,6 +16,7 @@ $script = <<< JS
             url: e.currentTarget.href,
             type: 'GET',
             success: function(data) {
+                $('#title-rubric').text("Рубрика: " + data.title);
                 return renderNews('/rubric/' + data.id + '/news?page=1');
             }
         });
@@ -95,9 +96,10 @@ $this->registerJs($script);
 ?>
 <div class="site-index">
     <?php
-        foreach ($rubric as $r)
-            echo '<a class="btn btn-primary rubric-btn" href="/rubric/'. $r['id'] . '">' . $r['title'] . '</a>';
+    foreach ($rubric as $r)
+        echo '<a class="btn btn-primary rubric-btn" href="/rubric/'. $r['id'] . '">' . $r['title'] . '</a>';
     ?>
+    <h2 id="title-rubric">Последние новости</h2>
     <table id="table-news" class="table table-bordered" style="margin-top:2rem">
     </table>
     <ul id='table-pagination' class="pagination">
