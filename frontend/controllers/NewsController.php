@@ -39,13 +39,14 @@ class NewsController extends ActiveController
 
         if(empty($id))
         {
-            $query = News::find();
+            $query = News::find()->orderBy(['id' => SORT_DESC]);
         }
         else
         {
             $query = News::find()
                 ->select('news.id, title, body')
-                ->leftJoin('rubric_news', 'news.id = news_id')->andWhere(['rubric_id' => Yii::$app->request->get('id')]);
+                ->leftJoin('rubric_news', 'news.id = news_id')->andWhere(['rubric_id' => Yii::$app->request->get('id')])
+                ->orderBy(['id' => SORT_DESC]);;
         }
 
         return new ActiveDataProvider([
