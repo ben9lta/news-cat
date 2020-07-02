@@ -32,9 +32,18 @@ class NewsController extends ActiveController
     }
 
     public function prepareDataProvider() {
-        $query = News::find()
-            ->select('news.id, title, body')
-            ->leftJoin('rubric_news', 'news.id = news_id')->andWhere(['rubric_id' => Yii::$app->request->get('id')]);
+        $id = Yii::$app->request->get('id');
+
+        if(empty($id))
+        {
+            $query = News::find();
+        }
+        else
+        {
+            $query = News::find()
+                ->select('news.id, title, body')
+                ->leftJoin('rubric_news', 'news.id = news_id')->andWhere(['rubric_id' => Yii::$app->request->get('id')]);
+        }
 
         return new ActiveDataProvider([
             'query' => $query,
