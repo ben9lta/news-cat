@@ -27,7 +27,10 @@ class NewsController extends ActiveController
     public function actions()
     {
         $actions = parent::actions();
+
+        unset($actions['delete'], $actions['create'], $actions['options'], $actions['update']);
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+
         return $actions;
     }
 

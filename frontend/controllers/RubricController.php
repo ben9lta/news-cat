@@ -23,6 +23,14 @@ class RubricController extends ActiveController
         ];
     }
 
+    public function actions()
+    {
+        $actions = parent::actions();
+
+        unset($actions['delete'], $actions['create'], $actions['options'], $actions['update']);
+
+        return $actions;
+    }
 
 
     public function actionAll() {
