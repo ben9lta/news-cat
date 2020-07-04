@@ -3,8 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Rubric;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
+use Yii;
 use yii\rest\ActiveController;
 
 class RubricController extends ActiveController
@@ -34,13 +33,43 @@ class RubricController extends ActiveController
 
 
     public function actionAll() {
-        $rubric = Rubric::find()->all();
+        $rubric = Rubric::find()->orderBy(['rubric_id' => SORT_ASC])->all();
         $result = [];
-        foreach ($rubric as $r) {
-            $result[] = ['item' => ['title' => $r['title'], 'href' => '/rubric/' . $r['id']]];
+        $level = Yii::$app->request->get('level');
+
+        if(empty($level)) {
+            foreach ($rubric as $r) {
+                $result[] = ['id' => $r['id'], 'title' => $r['title'], 'rubric_id' => $r['rubric_id'], 'href' => '/rubric/' . $r['id']];
+            }
         }
+        else
+        {
+            $i = 0;
+            $levelArr = [[0]];
+
+            while($i < $level) {
+                $next = $this->nextRubricLevel($rubric, $levelArr[$i]);
+                $result = array_merge($result, $next[0]);
+                $levelArr[] = $next[1];
+                $i++;
+            }
+        }
+
         return $result;
-//        return Rubric::find()->select('title')->all();
+    }
+
+    private function nextRubricLevel($rubric, $levelArr) {
+        $_levelArr = [];
+        $result = [];
+        foreach ($levelArr as $arr) {
+            foreach ($rubric as $r) {
+                if($r['rubric_id'] == $arr) {
+                    $_levelArr[] = $r['id'];
+                    $result[] = ['id' => $r['id'], 'title' => $r['title'], 'rubric_id' => $r['rubric_id'], 'href' => '/rubric/' . $r['id']];
+                }
+            }
+        }
+        return [$result, $_levelArr];
     }
 
 }
