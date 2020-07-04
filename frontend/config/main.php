@@ -58,7 +58,7 @@ return [
                     'pluralize' => false,
                 ],
                 [
-                    'pattern' => 'rubric/all',
+                    'pattern' => 'rubric/all/<level:\d+>',
                     'route' => 'rubric/all',
                 ],
                 [
