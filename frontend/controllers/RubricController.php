@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Rubric;
 use Yii;
+use yii\filters\Cors;
 use yii\rest\ActiveController;
 
 class RubricController extends ActiveController
@@ -12,14 +13,32 @@ class RubricController extends ActiveController
 
     public function behaviors()
     {
-        return [
-            [
-                'class' => \yii\filters\ContentNegotiator::className(),
-                'formats' => [
-                    'application/json' => \yii\web\Response::FORMAT_JSON,
+        $behaviors = parent::behaviors();
+
+        unset($behaviors['authenticator']);
+
+        $behaviors['corsFilter'] = [
+            'class' => Cors::className(),
+            'cors' => [
+                'Origin' => ['*'],
+                'Access-Control-Request-Method'  => ['GET'],
+                'Access-Control-Request-Headers' => ['*'],
+                'Access-Control-Max-Age'         => 3600,
+                'Access-Control-Expose-Headers'  => [
+                    'X-Pagination-Current-Page',
+                    'X-Pagination-Total-Count',
+                    'X-Pagination-Page-Count',
                 ],
+//                'Access-Control-Allow-Credentials' => true,
             ],
         ];
+
+//        $behaviors['authenticator'] = [
+//            'class' =>  HttpBearerAuth::className(),
+//            'except' => ['options','login'], // для гостей
+//        ];
+
+        return $behaviors;
     }
 
     public function actions()
